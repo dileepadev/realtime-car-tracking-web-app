@@ -89,13 +89,13 @@ BEGIN
     BEGIN
         BLOCK "040904e4"
         BEGIN
-            VALUE "CompanyName", "dev.dileepabandara" "\0"
-            VALUE "FileDescription", "car_tracking_dashboard" "\0"
+            VALUE "CompanyName", "dev.dileepa" "\0"
+            VALUE "FileDescription", "realtime_car_tracking_web_app" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "car_tracking_dashboard" "\0"
-            VALUE "LegalCopyright", "Copyright (C) 2023 dev.dileepabandara. All rights reserved." "\0"
-            VALUE "OriginalFilename", "car_tracking_dashboard.exe" "\0"
-            VALUE "ProductName", "car_tracking_dashboard" "\0"
+            VALUE "InternalName", "realtime_car_tracking_web_app" "\0"
+            VALUE "LegalCopyright", "Copyright (C) 2025 dev.dileepa. All rights reserved." "\0"
+            VALUE "OriginalFilename", "realtime_car_tracking_web_app.exe" "\0"
+            VALUE "ProductName", "realtime_car_tracking_web_app" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

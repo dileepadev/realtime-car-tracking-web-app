@@ -5,10 +5,10 @@
 // 'flutter create' template.
 
 // The application's name. By default this is also the title of the Flutter window.
-PRODUCT_NAME = car_tracking_dashboard
+PRODUCT_NAME = realtime_car_tracking_web_app
 
 // The application's bundle identifier
-PRODUCT_BUNDLE_IDENTIFIER = dev.dileepabandara.carTrackingDashboard
+PRODUCT_BUNDLE_IDENTIFIER = dev.dileepa.realtimeCarTrackingWebApp
 
 // The copyright displayed in application information
-PRODUCT_COPYRIGHT = Copyright © 2023 dev.dileepabandara. All rights reserved.
+PRODUCT_COPYRIGHT = Copyright © 2025 dev.dileepa. All rights reserved.

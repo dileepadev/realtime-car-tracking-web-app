@@ -1,9 +1,14 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+class GeoPoint {
+  final double latitude;
+  final double longitude;
+
+  const GeoPoint(this.latitude, this.longitude);
+}
 
 class CarModel {
   final String carId;
   final List acceleration;
-  final Timestamp lastUpdate;
+  final DateTime lastUpdate;
   final double humidity;
   final GeoPoint location;
   final double pressure;
@@ -26,25 +31,18 @@ class CarModel {
       carId: json['carId'],
       acceleration: json['acceleration'],
       humidity: json['humidity'],
-      lastUpdate: json['lastUpdate'],
-      location: json['location'],
+      lastUpdate: json['lastUpdate'] is DateTime
+          ? json['lastUpdate']
+          : DateTime.parse(json['lastUpdate'].toString()),
+      location: json['location'] is GeoPoint
+          ? json['location']
+          : GeoPoint(
+              json['location']['latitude'],
+              json['location']['longitude'],
+            ),
       pressure: json['pressure'],
       rotation: json['rotation'],
       temperature: json['temperature'],
-    );
-  }
-
-  factory CarModel.fromDocument(
-      DocumentSnapshot documentSnapshot, String carId) {
-    return CarModel(
-      carId: carId,
-      acceleration: documentSnapshot['acceleration'],
-      humidity: documentSnapshot['humidity'],
-      lastUpdate: documentSnapshot['lastUpdate'],
-      location: documentSnapshot['location'],
-      pressure: documentSnapshot['pressure'],
-      rotation: documentSnapshot['rotation'],
-      temperature: documentSnapshot['temperature'],
     );
   }
 }

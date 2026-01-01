@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:realtime_car_tracking_web_app/car_model.dart';
 import 'package:realtime_car_tracking_web_app/gauges.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:realtime_car_tracking_web_app/dummy_data_service.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 
@@ -26,10 +26,12 @@ class _CarPageState extends State<CarPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        Wrap(
+          alignment: WrapAlignment.spaceBetween,
+          crossAxisAlignment: WrapCrossAlignment.center,
           children: [
             Row(
+              mainAxisSize: MainAxisSize.min,
               children: [
                 IconButton(
                   onPressed: () {
@@ -60,7 +62,7 @@ class _CarPageState extends State<CarPage> {
         ),
         const SizedBox(height: 20.0),
         Text(
-          "Last Update: ${carModel.lastUpdate.toDate()}",
+          "Last Update: ${carModel.lastUpdate}",
           style: const TextStyle(
             fontSize: 14.0,
             fontWeight: FontWeight.normal,
@@ -72,31 +74,35 @@ class _CarPageState extends State<CarPage> {
   }
 
   Widget textHeaderMini({required String title, required String value}) {
-    return Row(
-      children: [
-        Text(
-          title,
-          style: const TextStyle(
-            fontSize: 14.0,
-            fontWeight: FontWeight.normal,
-            color: Colors.pink,
+    return Text.rich(
+      TextSpan(
+        children: [
+          TextSpan(
+            text: title,
+            style: const TextStyle(
+              fontSize: 14.0,
+              fontWeight: FontWeight.normal,
+              color: Colors.pink,
+            ),
           ),
-        ),
-        Text(
-          value,
-          style: const TextStyle(
-            fontSize: 14.0,
-            fontWeight: FontWeight.normal,
-            color: Colors.white,
+          TextSpan(
+            text: value,
+            style: const TextStyle(
+              fontSize: 14.0,
+              fontWeight: FontWeight.normal,
+              color: Colors.white,
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
   Widget dataListCard({required CarModel carModel}) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    return Wrap(
+      crossAxisAlignment: WrapCrossAlignment.start,
+      spacing: 20.0,
+      runSpacing: 20.0,
       children: [
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -110,7 +116,6 @@ class _CarPageState extends State<CarPage> {
             textHeaderMini(title: "Pressure: ", value: "${carModel.pressure}"),
           ],
         ),
-        const SizedBox(width: 20.0),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -126,7 +131,6 @@ class _CarPageState extends State<CarPage> {
             ),
           ],
         ),
-        const SizedBox(width: 20.0),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -198,8 +202,8 @@ class _CarPageState extends State<CarPage> {
   }
 
   Widget carDetails() {
-    return StreamBuilder<QuerySnapshot>(
-      stream: FirebaseFirestore.instance.collection('cars').snapshots(),
+    return StreamBuilder<List<CarModel>>(
+      stream: dummyService.carStream,
       builder: (context, snapshot) {
         if (snapshot.hasError) {
           return const Text('Something went wrong');
@@ -217,10 +221,7 @@ class _CarPageState extends State<CarPage> {
             style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
           );
         } else {
-          CarModel carModel = CarModel.fromDocument(
-            snapshot.data!.docs[widget.carDocumentID],
-            snapshot.data!.docs[widget.carDocumentID].id,
-          );
+          CarModel carModel = snapshot.data![widget.carDocumentID];
 
           return SingleChildScrollView(
             physics: const BouncingScrollPhysics(),
@@ -232,16 +233,21 @@ class _CarPageState extends State<CarPage> {
                 children: [
                   appBar(carModel: carModel),
                   const SizedBox(height: 40.0),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  Wrap(
+                    alignment: WrapAlignment.spaceBetween,
+                    crossAxisAlignment: WrapCrossAlignment.center,
+                    spacing: 20.0,
+                    runSpacing: 40.0,
                     children: [
                       Column(
                         children: [
                           Image.asset("assets/images/f1.png", width: 420.0),
                           const SizedBox(height: 40.0),
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.start,
+                          Wrap(
+                            alignment: WrapAlignment.start,
+                            crossAxisAlignment: WrapCrossAlignment.start,
+                            spacing: 10.0,
+                            runSpacing: 10.0,
                             children: [
                               Gauges().pressure(carModel.pressure),
                               Gauges().temperature(carModel.temperature),

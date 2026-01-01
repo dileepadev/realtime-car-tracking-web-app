@@ -1,7 +1,7 @@
 import 'package:realtime_car_tracking_web_app/car_model.dart';
 import 'package:realtime_car_tracking_web_app/car_page.dart';
 import 'package:realtime_car_tracking_web_app/theme/data_values.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:realtime_car_tracking_web_app/dummy_data_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
@@ -58,7 +58,7 @@ class _HomePageState extends State<HomePage> {
     return Container(
       decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
       height: 540.0,
-      width: 600.0,
+      constraints: const BoxConstraints(maxWidth: 600.0),
       child: FlutterMap(
         options: MapOptions(
           initialCenter: LatLng(
@@ -113,8 +113,8 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget carList() {
-    return StreamBuilder<QuerySnapshot>(
-      stream: FirebaseFirestore.instance.collection('cars').snapshots(),
+    return StreamBuilder<List<CarModel>>(
+      stream: dummyService.carStream,
       builder: (context, snapshot) {
         if (snapshot.hasError) {
           return const Text('Something went wrong');
@@ -132,206 +132,409 @@ class _HomePageState extends State<HomePage> {
             style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
           );
         } else {
-          final carsDocs = snapshot.data?.docs;
+          final carsDocs = snapshot.data!;
           return SingleChildScrollView(
             physics: const BouncingScrollPhysics(),
             child: Padding(
               padding: const EdgeInsets.all(40.0),
               child: Column(
                 children: [
-                  appBar(totalCars: carsDocs!.length),
+                  appBar(totalCars: carsDocs.length),
                   const SizedBox(height: 40.0),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      map(
-                        cars: carsDocs
-                            .map((e) => CarModel.fromDocument(e, e.id))
-                            .toList(),
-                      ),
-                      const SizedBox(width: 20.0),
-                      Expanded(
-                        child: ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: carsDocs.length,
-                          itemBuilder: (context, index) {
-                            final carsDoc = carsDocs[index];
-                            final carsID = carsDoc.id;
-                            return Card(
-                              color: Colors.grey[900],
-                              child: InkWell(
-                                onTap: () {
-                                  debugPrint(
-                                    'Tapped card with ID $carsID || ${carsDoc.id} || $index}',
-                                  );
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) {
-                                        return CarPage(carDocumentID: index);
+                  LayoutBuilder(
+                    builder: (context, constraints) {
+                      if (constraints.maxWidth > 950) {
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            map(cars: carsDocs),
+                            const SizedBox(width: 20.0),
+                            Expanded(
+                              child: ListView.builder(
+                                shrinkWrap: true,
+                                itemCount: carsDocs.length,
+                                itemBuilder: (context, index) {
+                                  final carsDoc = carsDocs[index];
+                                  final carsID = carsDoc.carId;
+                                  return Card(
+                                    color: Colors.grey[900],
+                                    child: InkWell(
+                                      onTap: () {
+                                        debugPrint(
+                                          'Tapped card with ID $carsID || ${carsDoc.carId} || $index}',
+                                        );
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) {
+                                              return CarPage(
+                                                carDocumentID: index,
+                                              );
+                                            },
+                                          ),
+                                        );
                                       },
+                                      child: Container(
+                                        padding: const EdgeInsets.symmetric(
+                                          horizontal: 16.0,
+                                          vertical: 8.0,
+                                        ),
+                                        child: SingleChildScrollView(
+                                          scrollDirection: Axis.horizontal,
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            children: [
+                                              Image.asset(
+                                                "assets/images/f1.png",
+                                                fit: BoxFit.contain,
+                                                width: 50,
+                                                height: 50,
+                                              ),
+                                              const SizedBox(width: 20.0),
+                                              SizedBox(
+                                                width: 80.0,
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    const Text(
+                                                      "Car ID",
+                                                      style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 14.0,
+                                                      ),
+                                                    ),
+                                                    const SizedBox(height: 4.0),
+                                                    Text(
+                                                      carsID,
+                                                      style: const TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 12.0,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              const SizedBox(width: 20.0),
+                                              SizedBox(
+                                                width: 80.0,
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    const Text(
+                                                      "Pressure",
+                                                      style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 14.0,
+                                                      ),
+                                                    ),
+                                                    const SizedBox(height: 4.0),
+                                                    Text(
+                                                      carsDoc.pressure
+                                                          .toString(),
+                                                      style: const TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 12.0,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              const SizedBox(width: 20.0),
+                                              SizedBox(
+                                                width: 100.0,
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    const Text(
+                                                      "Temperature",
+                                                      style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 14.0,
+                                                      ),
+                                                    ),
+                                                    const SizedBox(height: 4.0),
+                                                    Text(
+                                                      carsDoc.temperature
+                                                          .toString(),
+                                                      style: const TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 12.0,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              const SizedBox(width: 20.0),
+                                              SizedBox(
+                                                width: 100.0,
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    const Text(
+                                                      "Location",
+                                                      style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 14.0,
+                                                      ),
+                                                    ),
+                                                    const SizedBox(height: 4.0),
+                                                    Text(
+                                                      '${carsDoc.location.latitude}, ${carsDoc.location.longitude}',
+                                                      style: const TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 12.0,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              const SizedBox(width: 20.0),
+                                              SizedBox(
+                                                width: 150.0,
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    const Text(
+                                                      "Acceleration",
+                                                      style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 14.0,
+                                                      ),
+                                                    ),
+                                                    const SizedBox(height: 4.0),
+                                                    Text(
+                                                      "${carsDoc.acceleration[0].toString()}, ${carsDoc.acceleration[1].toString()}, ${carsDoc.acceleration[2].toString()}",
+                                                      style: const TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 12.0,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
                                     ),
                                   );
                                 },
-                                child: Container(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 16.0,
-                                    vertical: 8.0,
-                                  ),
-                                  child: SingleChildScrollView(
-                                    scrollDirection: Axis.horizontal,
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: [
-                                        Image.asset(
-                                          "assets/images/f1.png",
-                                          fit: BoxFit.contain,
-                                          width: 50,
-                                          height: 50,
+                              ),
+                            ),
+                          ],
+                        );
+                      } else {
+                        return Column(
+                          children: [
+                            map(cars: carsDocs),
+                            const SizedBox(height: 20.0),
+                            ListView.builder(
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemCount: carsDocs.length,
+                              itemBuilder: (context, index) {
+                                final carsDoc = carsDocs[index];
+                                final carsID = carsDoc.carId;
+                                return Card(
+                                  color: Colors.grey[900],
+                                  child: InkWell(
+                                    onTap: () {
+                                      debugPrint(
+                                        'Tapped card with ID $carsID || ${carsDoc.carId} || $index}',
+                                      );
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) {
+                                            return CarPage(
+                                              carDocumentID: index,
+                                            );
+                                          },
                                         ),
-                                        const SizedBox(width: 20.0),
-                                        SizedBox(
-                                          width: 80.0,
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              const Text(
-                                                "Car ID",
-                                                style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 14.0,
-                                                ),
+                                      );
+                                    },
+                                    child: Container(
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 16.0,
+                                        vertical: 8.0,
+                                      ),
+                                      child: SingleChildScrollView(
+                                        scrollDirection: Axis.horizontal,
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: [
+                                            Image.asset(
+                                              "assets/images/f1.png",
+                                              fit: BoxFit.contain,
+                                              width: 50,
+                                              height: 50,
+                                            ),
+                                            const SizedBox(width: 20.0),
+                                            SizedBox(
+                                              width: 80.0,
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  const Text(
+                                                    "Car ID",
+                                                    style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 14.0,
+                                                    ),
+                                                  ),
+                                                  const SizedBox(height: 4.0),
+                                                  Text(
+                                                    carsID,
+                                                    style: const TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 12.0,
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
-                                              const SizedBox(height: 4.0),
-                                              Text(
-                                                carsID,
-                                                style: const TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 12.0,
-                                                ),
+                                            ),
+                                            const SizedBox(width: 20.0),
+                                            SizedBox(
+                                              width: 80.0,
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  const Text(
+                                                    "Pressure",
+                                                    style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 14.0,
+                                                    ),
+                                                  ),
+                                                  const SizedBox(height: 4.0),
+                                                  Text(
+                                                    carsDoc.pressure.toString(),
+                                                    style: const TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 12.0,
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
-                                            ],
-                                          ),
+                                            ),
+                                            const SizedBox(width: 20.0),
+                                            SizedBox(
+                                              width: 100.0,
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  const Text(
+                                                    "Temperature",
+                                                    style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 14.0,
+                                                    ),
+                                                  ),
+                                                  const SizedBox(height: 4.0),
+                                                  Text(
+                                                    carsDoc.temperature
+                                                        .toString(),
+                                                    style: const TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 12.0,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            const SizedBox(width: 20.0),
+                                            SizedBox(
+                                              width: 100.0,
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  const Text(
+                                                    "Location",
+                                                    style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 14.0,
+                                                    ),
+                                                  ),
+                                                  const SizedBox(height: 4.0),
+                                                  Text(
+                                                    '${carsDoc.location.latitude}, ${carsDoc.location.longitude}',
+                                                    style: const TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 12.0,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            const SizedBox(width: 20.0),
+                                            SizedBox(
+                                              width: 150.0,
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  const Text(
+                                                    "Acceleration",
+                                                    style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 14.0,
+                                                    ),
+                                                  ),
+                                                  const SizedBox(height: 4.0),
+                                                  Text(
+                                                    "${carsDoc.acceleration[0].toString()}, ${carsDoc.acceleration[1].toString()}, ${carsDoc.acceleration[2].toString()}",
+                                                    style: const TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 12.0,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ],
                                         ),
-                                        const SizedBox(width: 20.0),
-                                        SizedBox(
-                                          width: 80.0,
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              const Text(
-                                                "Pressure",
-                                                style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 14.0,
-                                                ),
-                                              ),
-                                              const SizedBox(height: 4.0),
-                                              Text(
-                                                carsDoc['pressure'].toString(),
-                                                style: const TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 12.0,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        const SizedBox(width: 20.0),
-                                        SizedBox(
-                                          width: 100.0,
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              const Text(
-                                                "Temperature",
-                                                style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 14.0,
-                                                ),
-                                              ),
-                                              const SizedBox(height: 4.0),
-                                              Text(
-                                                carsDoc['temperature']
-                                                    .toString(),
-                                                style: const TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 12.0,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        const SizedBox(width: 20.0),
-                                        SizedBox(
-                                          width: 100.0,
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              const Text(
-                                                "Location",
-                                                style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 14.0,
-                                                ),
-                                              ),
-                                              const SizedBox(height: 4.0),
-                                              Text(
-                                                '${carsDoc['location'].latitude}, ${carsDoc['location'].longitude}',
-                                                style: const TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 12.0,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        const SizedBox(width: 20.0),
-                                        SizedBox(
-                                          width: 150.0,
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              const Text(
-                                                "Acceleration",
-                                                style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 14.0,
-                                                ),
-                                              ),
-                                              const SizedBox(height: 4.0),
-                                              Text(
-                                                "${carsDoc['acceleration'][0].toString()}, ${carsDoc['acceleration'][1].toString()}, ${carsDoc['acceleration'][2].toString()}",
-                                                style: const TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 12.0,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ],
+                                      ),
                                     ),
                                   ),
-                                ),
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                    ],
+                                );
+                              },
+                            ),
+                          ],
+                        );
+                      }
+                    },
                   ),
                 ],
               ),

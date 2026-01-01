@@ -233,32 +233,67 @@ class _CarPageState extends State<CarPage> {
                 children: [
                   appBar(carModel: carModel),
                   const SizedBox(height: 40.0),
-                  Wrap(
-                    alignment: WrapAlignment.spaceBetween,
-                    crossAxisAlignment: WrapCrossAlignment.center,
-                    spacing: 20.0,
-                    runSpacing: 40.0,
-                    children: [
-                      Column(
-                        children: [
-                          Image.asset("assets/images/f1.png", width: 420.0),
-                          const SizedBox(height: 40.0),
-                          Wrap(
-                            alignment: WrapAlignment.start,
-                            crossAxisAlignment: WrapCrossAlignment.start,
-                            spacing: 10.0,
-                            runSpacing: 10.0,
-                            children: [
-                              Gauges().pressure(carModel.pressure),
-                              Gauges().temperature(carModel.temperature),
-                              const SizedBox(width: 30.0),
-                              Gauges().humidity(carModel.humidity),
-                            ],
-                          ),
-                        ],
-                      ),
-                      map(carModel),
-                    ],
+                  LayoutBuilder(
+                    builder: (context, constraints) {
+                      if (constraints.maxWidth > 1550) {
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Column(
+                              children: [
+                                Image.asset(
+                                  "assets/images/f1.png",
+                                  width: 420.0,
+                                ),
+                                const SizedBox(height: 40.0),
+                                Wrap(
+                                  alignment: WrapAlignment.start,
+                                  crossAxisAlignment: WrapCrossAlignment.start,
+                                  spacing: 10.0,
+                                  runSpacing: 10.0,
+                                  children: [
+                                    Gauges().pressure(carModel.pressure),
+                                    Gauges().temperature(carModel.temperature),
+                                    const SizedBox(width: 30.0),
+                                    Gauges().humidity(carModel.humidity),
+                                  ],
+                                ),
+                              ],
+                            ),
+                            map(carModel),
+                          ],
+                        );
+                      } else {
+                        return Column(
+                          children: [
+                            Column(
+                              children: [
+                                Image.asset(
+                                  "assets/images/f1.png",
+                                  width: 420.0,
+                                ),
+                                const SizedBox(height: 40.0),
+                                Wrap(
+                                  alignment: WrapAlignment.start,
+                                  crossAxisAlignment: WrapCrossAlignment.start,
+                                  spacing: 10.0,
+                                  runSpacing: 10.0,
+                                  children: [
+                                    Gauges().pressure(carModel.pressure),
+                                    Gauges().temperature(carModel.temperature),
+                                    const SizedBox(width: 30.0),
+                                    Gauges().humidity(carModel.humidity),
+                                  ],
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 40.0),
+                            map(carModel),
+                          ],
+                        );
+                      }
+                    },
                   ),
                 ],
               ),

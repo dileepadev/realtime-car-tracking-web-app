@@ -11,7 +11,7 @@
 
 A real-time car tracking web application built with Flutter. It uses GPS tracking devices to collect vehicle data, which is stored in a Firestore database, and a Flutter web app to access and display this data in real time.
 
-![Preview Image](https://dileepadev.github.io/images/realtime-car-tracking-web-app/preview.png)
+![Preview Image](https://dileepadev.github.io/images/realtime-car-tracking-web-app/preview.gif)
 
 ## 🎞️ Demo Videos
 
@@ -20,6 +20,16 @@ Click the link or image below to view the demo video on YouTube.
 🔗 <https://youtu.be/L5HnTtCqgMs>
 
 [![Watch the demo video](https://img.youtube.com/vi/L5HnTtCqgMs/0.jpg)](https://youtu.be/L5HnTtCqgMs)
+
+## 🌐 Website
+
+> [!IMPORTANT]
+>
+> - The web app shown below is hosted on **GitHub Pages** and does **not** include Firebase integration.
+> - The deployed files belong to the **`1.1.0-demo`** branch. Refer to the [branch details](#-branches) for more information.
+> - If you plan to deploy the version from the **`main`** branch, ensure that the **Firebase configuration is properly set up** for the web app to function as expected.
+
+Deployed Website: <https://dileepadev.github.io/realtime-car-tracking-web-app/>
 
 ## 📦 Release Details
 
@@ -30,7 +40,7 @@ Click the link or image below to view the demo video on YouTube.
 > | --- | --- | --- |
 > | Initial release | v0.1.0 | March 16, 2022 |
 > | First release | v1.0.0 | April 25, 2023 |
-> | Feature release 1 | v1.1.0 | December 31, 2025 |
+> | Feature release 1 | v1.1.0 | January 2, 2026 |
 >
 ### 🎉 View all releases
 
@@ -46,6 +56,13 @@ Source Code
   the source code
 - [1.1.0](https://github.com/dileepadev/realtime-car-tracking-web-app/tree/1.1.0) - Stable 1.1.0 version of
   the source code
+- [1.1.0-demo](https://github.com/dileepadev/realtime-car-tracking-web-app/tree/1.1.0-demo) - Demo version of
+  the source code without Firebase integration
+
+Web Build
+
+- [1.1.0-demo-web-build](https://github.com/dileepadev/realtime-car-tracking-web-app/tree/1.1.0-demo-web-build) - Stable and
+  latest version of the web build
 
 ## 💙 Built With
 
@@ -84,11 +101,61 @@ Source Code
 
 ## 🚀 How to Run
 
+### Flutter web app with Firebase integration
+
+- Open the terminal in the project directory.
+- Run the following command to start the Flutter web app in debug mode.
+
+  - Shell
+
+  ```shell
+  flutter run -d chrome `
+    --dart-define=FIREBASE_API_KEY=<YOUR_FIREBASE_API_KEY> `
+    --dart-define=FIREBASE_PROJECT_ID=<YOUR_FIREBASE_PROJECT_ID> `
+    --dart-define=FIREBASE_MESSAGING_SENDER_ID=<YOUR_FIREBASE_MESSAGING_SENDER_ID> `
+    --dart-define=FIREBASE_APP_ID=<YOUR_FIREBASE_APP_ID> `
+    --dart-define=FIREBASE_MEASUREMENT_ID=<YOUR_FIREBASE_MEASUREMENT_ID>
+  ```
+
+  - Bash
+
+  ```shell
+  flutter run -d chrome \
+    --dart-define=FIREBASE_API_KEY=<YOUR_FIREBASE_API_KEY> \
+    --dart-define=FIREBASE_PROJECT_ID=<YOUR_FIREBASE_PROJECT_ID> \
+    --dart-define=FIREBASE_MESSAGING_SENDER_ID=<YOUR_FIREBASE_MESSAGING_SENDER_ID> \
+    --dart-define=FIREBASE_APP_ID=<YOUR_FIREBASE_APP_ID> \
+    --dart-define=FIREBASE_MEASUREMENT_ID=<YOUR_FIREBASE_MEASUREMENT_ID>
+  ```
+
+### Flutter web app without Firebase integration
+
+- Open the terminal in the project directory.
+- Run the following command to start the Flutter web app in debug mode.
+- Shell
+
+  ```shell
+  flutter run -d chrome
+  ```
+
+  - Bash
+
+  ```shell
+  flutter run -d chrome
+  ```
+
+### Web build
+
 - Download web-build directory from
   the [web-build](https://github.com/dileepadev/realtime-car-tracking-web-app/tree/web-build) branch.
 - Move the build files to a server such as localhost, GitHub Pages, or any other http/https web
   server.
 - Set up and run the index.html file.
+- Build the project using `flutter build web` command and deploy it to any web server.
+
+  ```bash
+  flutter build web --base-href /realtime-car-tracking-web-app/
+  ```
 
 ## 🖼️ Icons and Images
 

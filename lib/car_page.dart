@@ -26,10 +26,12 @@ class _CarPageState extends State<CarPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        Wrap(
+          alignment: WrapAlignment.spaceBetween,
+          crossAxisAlignment: WrapCrossAlignment.center,
           children: [
             Row(
+              mainAxisSize: MainAxisSize.min,
               children: [
                 IconButton(
                   onPressed: () {
@@ -72,31 +74,35 @@ class _CarPageState extends State<CarPage> {
   }
 
   Widget textHeaderMini({required String title, required String value}) {
-    return Row(
-      children: [
-        Text(
-          title,
-          style: const TextStyle(
-            fontSize: 14.0,
-            fontWeight: FontWeight.normal,
-            color: Colors.pink,
+    return Text.rich(
+      TextSpan(
+        children: [
+          TextSpan(
+            text: title,
+            style: const TextStyle(
+              fontSize: 14.0,
+              fontWeight: FontWeight.normal,
+              color: Colors.pink,
+            ),
           ),
-        ),
-        Text(
-          value,
-          style: const TextStyle(
-            fontSize: 14.0,
-            fontWeight: FontWeight.normal,
-            color: Colors.white,
+          TextSpan(
+            text: value,
+            style: const TextStyle(
+              fontSize: 14.0,
+              fontWeight: FontWeight.normal,
+              color: Colors.white,
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
   Widget dataListCard({required CarModel carModel}) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    return Wrap(
+      crossAxisAlignment: WrapCrossAlignment.start,
+      spacing: 20.0,
+      runSpacing: 20.0,
       children: [
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -110,7 +116,6 @@ class _CarPageState extends State<CarPage> {
             textHeaderMini(title: "Pressure: ", value: "${carModel.pressure}"),
           ],
         ),
-        const SizedBox(width: 20.0),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -126,7 +131,6 @@ class _CarPageState extends State<CarPage> {
             ),
           ],
         ),
-        const SizedBox(width: 20.0),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -232,16 +236,21 @@ class _CarPageState extends State<CarPage> {
                 children: [
                   appBar(carModel: carModel),
                   const SizedBox(height: 40.0),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  Wrap(
+                    alignment: WrapAlignment.spaceBetween,
+                    crossAxisAlignment: WrapCrossAlignment.center,
+                    spacing: 20.0,
+                    runSpacing: 40.0,
                     children: [
                       Column(
                         children: [
                           Image.asset("assets/images/f1.png", width: 420.0),
                           const SizedBox(height: 40.0),
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.start,
+                          Wrap(
+                            alignment: WrapAlignment.start,
+                            crossAxisAlignment: WrapCrossAlignment.start,
+                            spacing: 10.0,
+                            runSpacing: 10.0,
                             children: [
                               Gauges().pressure(carModel.pressure),
                               Gauges().temperature(carModel.temperature),

@@ -10,7 +10,6 @@ This project follows a versioning pattern similar to [Semantic Versioning](https
     - [Examples](#examples)
   - [Release Process](#release-process)
     - [Typical Steps](#typical-steps)
-  - [Simple Versioning for This Project](#simple-versioning-for-this-project)
   - [Questions or Issues?](#questions-or-issues)
 
 ## Format
@@ -71,17 +70,6 @@ View differences between versions:
 ```bash
 git log v1.1.0..v1.2.0
 ```
-
-## Simple Versioning for This Project
-
-Since this is a simple project, we will **not use the full `MAJOR.MINOR.PATCH` (`x.y.z`) format**.
-Instead, we will use only `MAJOR.MINOR` (`x.y`) versions to keep things simple and easy to manage:
-
-- `1.0` – First stable release
-- `1.1` – Adds a new feature
-- `1.2` – Minor improvements or fixes
-
-This is sufficient for tracking releases without overcomplicating the versioning scheme.
 
 ## Questions or Issues?
 

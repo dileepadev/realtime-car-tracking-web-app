@@ -40,7 +40,7 @@ Deployed Website: <https://dileepadev.github.io/realtime-car-tracking-web-app/>
 > | --- | --- | --- |
 > | Initial release | v0.1.0 | March 16, 2022 |
 > | First release | v1.0.0 | April 25, 2023 |
-> | Feature release 1 | v1.1.0 | January 2, 2026 |
+> | Feature release 1 | v1.1.0 | January 5, 2026 |
 >
 ### 🎉 View all releases
 

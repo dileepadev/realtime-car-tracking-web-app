@@ -13,7 +13,7 @@ Changes are organized into the following categories:
 
 - Changes for the next release are available in development branches.
 
-## [v1.1.0] - January 5, 2026
+## [v1.1.0] - January 6, 2026
 
 - **Changed:** Clean re-upload to new GitHub account for migration purposes.
 - **Fixed:** Minor compatibility fixes to ensure the project runs correctly in the current environment.

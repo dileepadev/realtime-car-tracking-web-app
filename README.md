@@ -1,11 +1,11 @@
 # Realtime Car Tracking Web App
 
-![GitHub repo size](https://img.shields.io/github/repo-size/dileepadev/realtime-car-tracking-web-app?color=red&label=repository%20size)
-![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/dileepadev/realtime-car-tracking-web-app?color=red)
-![GitHub language count](https://img.shields.io/github/languages/count/dileepadev/realtime-car-tracking-web-app)
-![GitHub top language](https://img.shields.io/github/languages/top/dileepadev/realtime-car-tracking-web-app)
-![GitHub](https://img.shields.io/github/license/dileepadev/realtime-car-tracking-web-app?color=yellow)
-![GitHub commit activity](https://img.shields.io/github/commit-activity/m/dileepadev/realtime-car-tracking-web-app?color=brightgreen&label=commits)
+![GitHub repo size](https://img.shields.io/github/repo-size/dileepadev/realtime-car-tracking-web-app?color=d62936&label=Repo%20Size)
+![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/dileepadev/realtime-car-tracking-web-app?color=blue&label=Code%20Size)
+![GitHub commit activity](https://img.shields.io/github/commit-activity/m/dileepadev/realtime-car-tracking-web-app?color=eb7005&label=Commit%20Activity)
+![GitHub last commit](https://img.shields.io/github/last-commit/dileepadev/realtime-car-tracking-web-app?color=2a4a75&label=Last%20Commit)
+![Website status](https://img.shields.io/website?up_message=online&url=https%3A%2F%2Fdileepadev.github.io%2Frealtime-car-tracking-web-app&label=Website&color=006400)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/dileepadev/realtime-car-tracking-web-app?color=ff4081&label=Latest%20Release)
 
 ## ✨ About
 
@@ -40,7 +40,7 @@ Deployed Website: <https://dileepadev.github.io/realtime-car-tracking-web-app/>
 > | --- | --- | --- |
 > | Initial release | v0.1.0 | March 16, 2022 |
 > | First release | v1.0.0 | April 25, 2023 |
-> | Feature release 1 | v1.1.0 | January 5, 2026 |
+> | Feature release 1 | v1.1.0 | January 6, 2026 |
 >
 ### 🎉 View all releases
 
